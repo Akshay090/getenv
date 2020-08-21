@@ -1,6 +1,20 @@
+const getIP = require('external-ip')();
+const app = require("./server")
 const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/rest");
+
+const PORT = 8001;
+let globalIP;
+getIP((err, ip) => {
+  if (err) {
+      // every service in the list has failed
+      throw err;
+  }
+  console.log(ip);
+  globalIP = ip;
+});
+
 
 async function run() {
   try {
@@ -42,14 +56,15 @@ async function run() {
         const comment = commentObject.body;
         const message = customMessage
           ? customMessage
-          : `Hey @${commentAuthor}! 👋 <br/> You commented ${comment} have a great day🙂`;
+          : `Hey @${commentAuthor}! 👋 <br/> visit https://${globalIP}:${PORT} have a great day🙂`;
 
-        return octokit.issues.createComment({
+        octokit.issues.createComment({
           owner: repository.owner.login,
           repo: repository.name,
           issue_number: issueNumber,
           body: message,
         });
+        app.listen(PORT)
       }
     }
   } catch (error) {

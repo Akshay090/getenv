@@ -1,20 +1,10 @@
-const getIP = require('external-ip')();
-const app = require("./server")
+const getIP = require("external-ip")();
+const app = require("./server");
 const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/rest");
 
 const PORT = 8001;
-let globalIP;
-getIP((err, ip) => {
-  if (err) {
-      // every service in the list has failed
-      throw err;
-  }
-  console.log(ip);
-  globalIP = ip;
-});
-
 
 async function run() {
   try {
@@ -23,6 +13,16 @@ async function run() {
     const customMessage = core.getInput("message");
     const { context } = github;
     const repository = context.payload.repository;
+
+    let globalIP;
+    getIP((err, ip) => {
+      if (err) {
+        // every service in the list has failed
+        throw err;
+      }
+      console.log(ip);
+      globalIP = ip;
+    });
 
     if (context.payload.review && context.payload.action === "submitted") {
       const issueNumber = context.payload.pull_request.number;
@@ -51,7 +51,7 @@ async function run() {
 
         // const comment = [context.payload.comment.body];
         const commentObject = context.payload.comment;
-        console.log(commentObject.user, "commentObject.user")
+        console.log(commentObject.user, "commentObject.user");
         const commentAuthor = commentObject.user.login;
         const comment = commentObject.body;
         const message = customMessage
@@ -64,7 +64,7 @@ async function run() {
           issue_number: issueNumber,
           body: message,
         });
-        app.listen(PORT)
+        app.listen(PORT);
       }
     }
   } catch (error) {

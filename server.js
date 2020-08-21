@@ -3,7 +3,6 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-const port = 8000
 
 // // Iterate over interfaces ...
 // var adresses = Object.keys(ifaces).reduce(function (result, dev) {
@@ -26,9 +25,5 @@ app.post('/ok', function (req, res) {
     res.send('Lopgged in')
   })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-
-});
 
 module.exports = app;

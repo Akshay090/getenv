@@ -1,8 +1,9 @@
-const getIP = require("external-ip")();
 const app = require("./server");
 const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/rest");
+const {promisify} = require('util');
+const getIP = promisify(require('external-ip')());
 
 const PORT = 8001;
 
@@ -14,15 +15,7 @@ async function run() {
     const { context } = github;
     const repository = context.payload.repository;
 
-    let globalIP;
-    getIP((err, ip) => {
-      if (err) {
-        // every service in the list has failed
-        throw err;
-      }
-      console.log(ip);
-      globalIP = ip;
-    });
+    const globalIP = await getIP();
 
     if (context.payload.review && context.payload.action === "submitted") {
       const issueNumber = context.payload.pull_request.number;

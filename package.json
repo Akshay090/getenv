@@ -1,0 +1,27 @@
+{
+  "name": "getenv",
+  "version": "1.0.0",
+  "description": "A Github action to manage your env files",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akshay090/getenv.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Action"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akshay090/getenv/issues"
+  },
+  "homepage": "https://github.com/Akshay090/getenv#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^4.0.0",
+    "@octokit/rest": "^18.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0"
+  }
+}

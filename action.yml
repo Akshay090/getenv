@@ -8,3 +8,7 @@ inputs:
 runs:
   using: "node12"
   main: "index.js"
+
+services:
+  ports:
+  - 8003:8003
